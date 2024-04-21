@@ -1,4 +1,5 @@
 @file:Suppress("MagicNumber")
+
 package com.roblesdotdev.ohmylist.ui.theme
 
 import androidx.compose.ui.graphics.Color
