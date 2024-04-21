@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.detekt) apply false
 }
 
+apply(from = "buildScripts/git-hooks.gradle")
 
 subprojects {
     apply(
