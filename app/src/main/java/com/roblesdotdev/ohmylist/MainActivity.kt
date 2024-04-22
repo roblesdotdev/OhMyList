@@ -3,15 +3,33 @@ package com.roblesdotdev.ohmylist
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
+import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.roblesdotdev.ohmylist.shoplist.data.repository.DefaultShopListRepository
+import com.roblesdotdev.ohmylist.shoplist.presentation.ShopListScreen
+import com.roblesdotdev.ohmylist.shoplist.presentation.ShopListViewModel
 import com.roblesdotdev.ohmylist.ui.theme.OhMyListTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val viewModel by viewModels<ShopListViewModel>(
+                factoryProducer = {
+                    object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return ShopListViewModel(repo = DefaultShopListRepository()) as T
+                        }
+                    }
+                },
+            )
+            val state by viewModel.state.collectAsState()
             OhMyListTheme {
-                Text(text = "Hello, World")
+                ShopListScreen(state = state)
             }
         }
     }
