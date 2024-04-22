@@ -17,15 +17,13 @@ class ShopListViewModel(
     repo: ShopListRepository,
 ) : ViewModel() {
     private val isLoading = MutableStateFlow(false)
-    private val filter = MutableStateFlow("")
     private val filteredAsyncResult =
-        combine(repo.getShopListStream(), filter) { list, filter ->
-            filterList(list, filter)
-        }.map {
-            AsyncResult.Success(it)
-        }.catch<AsyncResult<List<ShopList>>> { emit(AsyncResult.Error("Something went wrong")) }
+        repo.getShopListStream()
+            .map {
+                AsyncResult.Success(it)
+            }.catch<AsyncResult<List<ShopList>>> { emit(AsyncResult.Error("Something went wrong")) }
     val state: StateFlow<ShopListState> =
-        combine(isLoading, filter, filteredAsyncResult) { isLoading, filter, resultAsync ->
+        combine(isLoading, filteredAsyncResult) { isLoading, resultAsync ->
             when (resultAsync) {
                 is AsyncResult.Error ->
                     ShopListState(
@@ -38,26 +36,8 @@ class ShopListViewModel(
                     ShopListState(
                         items = resultAsync.data,
                         isLoading = isLoading,
-                        filter = filter,
                     )
             }
         }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), ShopListState())
-
-    private fun filterList(
-        list: List<ShopList>,
-        filter: String?,
-    ): List<ShopList> {
-        if (filter?.isNotBlank() == true) {
-            return list
-        }
-        return list
-    }
 }
-
-data class ShopListState(
-    val isLoading: Boolean = false,
-    val items: List<ShopList> = emptyList(),
-    val errorMessage: String? = null,
-    val filter: String? = null,
-)
