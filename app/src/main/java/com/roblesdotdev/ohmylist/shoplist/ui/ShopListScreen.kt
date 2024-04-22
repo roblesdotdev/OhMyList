@@ -1,4 +1,4 @@
-package com.roblesdotdev.ohmylist.shoplist.presentation
+package com.roblesdotdev.ohmylist.shoplist.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.roblesdotdev.ohmylist.shoplist.domain.model.ShopList
-import com.roblesdotdev.ohmylist.ui.theme.OhMyListTheme
+import com.roblesdotdev.ohmylist.core.domain.model.ShopList
+import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
 @Composable
 fun ShopListScreen(state: ShopListState) {
@@ -46,9 +46,9 @@ fun ShopListScreen(state: ShopListState) {
         LazyColumn(
             contentPadding = paddingValues,
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item {
@@ -66,9 +66,9 @@ fun ShopListScreen(state: ShopListState) {
 fun ShopListItem(item: ShopList) {
     Card(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .clickable { },
+        Modifier
+            .fillMaxWidth()
+            .clickable { },
         shape = RoundedCornerShape(8.dp),
     ) {
         Row(

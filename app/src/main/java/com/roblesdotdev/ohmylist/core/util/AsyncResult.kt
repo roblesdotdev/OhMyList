@@ -1,4 +1,4 @@
-package com.roblesdotdev.ohmylist.util
+package com.roblesdotdev.ohmylist.core.util
 
 /**
  * A generic class that holds a loading signal or the result of an async operation.

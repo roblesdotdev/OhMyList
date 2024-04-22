@@ -1,7 +1,7 @@
-package com.roblesdotdev.ohmylist.shoplist.data.repository
+package com.roblesdotdev.ohmylist.core.data.repository
 
-import com.roblesdotdev.ohmylist.shoplist.domain.model.ShopList
-import com.roblesdotdev.ohmylist.shoplist.domain.repository.ShopListRepository
+import com.roblesdotdev.ohmylist.core.domain.model.ShopList
+import com.roblesdotdev.ohmylist.core.domain.repository.ShopListRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

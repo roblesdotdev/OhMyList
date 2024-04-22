@@ -8,10 +8,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.roblesdotdev.ohmylist.shoplist.data.repository.DefaultShopListRepository
-import com.roblesdotdev.ohmylist.shoplist.presentation.ShopListScreen
-import com.roblesdotdev.ohmylist.shoplist.presentation.ShopListViewModel
-import com.roblesdotdev.ohmylist.ui.theme.OhMyListTheme
+import com.roblesdotdev.ohmylist.core.data.repository.DefaultShopListRepository
+import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
+import com.roblesdotdev.ohmylist.shoplist.ui.ShopListScreen
+import com.roblesdotdev.ohmylist.shoplist.ui.ShopListViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.roblesdotdev.ohmylist.shoplist.domain.model
+package com.roblesdotdev.ohmylist.core.domain.model
 
 data class ShopList(
     val id: Int = 0,

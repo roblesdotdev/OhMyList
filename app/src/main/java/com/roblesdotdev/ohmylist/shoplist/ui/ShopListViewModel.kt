@@ -1,10 +1,10 @@
-package com.roblesdotdev.ohmylist.shoplist.presentation
+package com.roblesdotdev.ohmylist.shoplist.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roblesdotdev.ohmylist.shoplist.domain.model.ShopList
-import com.roblesdotdev.ohmylist.shoplist.domain.repository.ShopListRepository
-import com.roblesdotdev.ohmylist.util.AsyncResult
+import com.roblesdotdev.ohmylist.core.domain.model.ShopList
+import com.roblesdotdev.ohmylist.core.domain.repository.ShopListRepository
+import com.roblesdotdev.ohmylist.core.util.AsyncResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

@@ -1,6 +1,6 @@
-package com.roblesdotdev.ohmylist.shoplist.presentation
+package com.roblesdotdev.ohmylist.shoplist.ui
 
-import com.roblesdotdev.ohmylist.shoplist.domain.model.ShopList
+import com.roblesdotdev.ohmylist.core.domain.model.ShopList
 
 data class ShopListState(
     val isLoading: Boolean = false,
