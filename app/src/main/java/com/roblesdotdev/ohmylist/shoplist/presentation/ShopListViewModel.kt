@@ -16,16 +16,16 @@ import kotlinx.coroutines.flow.stateIn
 class ShopListViewModel(
     repo: ShopListRepository,
 ) : ViewModel() {
-    private val _isLoading = MutableStateFlow(false)
-    private val _filter = MutableStateFlow("")
-    private val _filteredAsyncResult =
-        combine(repo.getShopListStream(), _filter) { list, filter ->
+    private val isLoading = MutableStateFlow(false)
+    private val filter = MutableStateFlow("")
+    private val filteredAsyncResult =
+        combine(repo.getShopListStream(), filter) { list, filter ->
             filterList(list, filter)
         }.map {
             AsyncResult.Success(it)
         }.catch<AsyncResult<List<ShopList>>> { emit(AsyncResult.Error("Something went wrong")) }
     val state: StateFlow<ShopListState> =
-        combine(_isLoading, _filter, _filteredAsyncResult) { isLoading, filter, resultAsync ->
+        combine(isLoading, filter, filteredAsyncResult) { isLoading, filter, resultAsync ->
             when (resultAsync) {
                 is AsyncResult.Error ->
                     ShopListState(
