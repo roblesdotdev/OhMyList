@@ -10,26 +10,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.roblesdotdev.ohmylist.core.data.repository.DefaultShopListRepository
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
-import com.roblesdotdev.ohmylist.shoplist.ui.ShopListScreen
-import com.roblesdotdev.ohmylist.shoplist.ui.ShopListViewModel
+import com.roblesdotdev.ohmylist.shoplistDetail.ui.ShopListDetailScreen
+import com.roblesdotdev.ohmylist.shoplistDetail.ui.ShopListDetailViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel by viewModels<ShopListViewModel>(
+            val viewModel by viewModels<ShopListDetailViewModel>(
                 factoryProducer = {
                     object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return ShopListViewModel(repo = DefaultShopListRepository()) as T
+                            return ShopListDetailViewModel(repo = DefaultShopListRepository()) as T
                         }
                     }
                 },
             )
             val state by viewModel.state.collectAsState()
             OhMyListTheme {
-                ShopListScreen(state = state)
+                ShopListDetailScreen(state = state)
             }
         }
     }

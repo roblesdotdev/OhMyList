@@ -46,9 +46,9 @@ fun ShopListScreen(state: ShopListState) {
         LazyColumn(
             contentPadding = paddingValues,
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item {
@@ -66,9 +66,9 @@ fun ShopListScreen(state: ShopListState) {
 fun ShopListItem(item: ShopList) {
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .clickable { },
+            Modifier
+                .fillMaxWidth()
+                .clickable { },
         shape = RoundedCornerShape(8.dp),
     ) {
         Row(
