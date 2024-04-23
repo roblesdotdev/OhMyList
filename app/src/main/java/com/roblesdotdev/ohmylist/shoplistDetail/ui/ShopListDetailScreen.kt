@@ -93,7 +93,7 @@ fun ShopListDetailContent(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .clickable { },
+                                .clickable { onEvent(ShopListDetailEvent.EditProduct(product)) },
                         shape = RoundedCornerShape(8.dp),
                     ) {
                         Row(
@@ -140,7 +140,8 @@ fun ProductDialog(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Add product", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                val title = if (input.productId != null) "Edit product" else "Add product"
+                Text(text = title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(32.dp))
                 TextField(
                     value = input.name,

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlin.random.Random
 
 class ShopListDetailViewModel(
     private val repo: ShopListRepository,
@@ -66,12 +67,23 @@ class ShopListDetailViewModel(
 
     fun onEvent(event: ShopListDetailEvent) {
         when (event) {
-            ShopListDetailEvent.AddProduct -> addProductToList()
+            ShopListDetailEvent.AddProduct -> saveListProduct()
             ShopListDetailEvent.CloseModal -> setShowDialog(false)
             ShopListDetailEvent.OpenModal -> setShowDialog(true)
             is ShopListDetailEvent.ChangeInputDescription -> updateInputDescription(event.description)
             is ShopListDetailEvent.ChangeInputName -> updateInputName(event.name)
+            is ShopListDetailEvent.EditProduct -> openEditDialog(event.product)
         }
+    }
+
+    private fun openEditDialog(product: Product) {
+        productInput.value =
+            productInput.value.copy(
+                productId = product.id,
+                name = product.name,
+                description = product.description,
+            )
+        setShowDialog(true)
     }
 
     private fun updateInputName(name: String) {
@@ -96,10 +108,17 @@ class ShopListDetailViewModel(
         }
     }
 
-    private fun addProductToList() {
-        val product =
-            Product(name = productInput.value.name, description = productInput.value.description)
-        repo.addProductToList(shopListId, product)
+    private fun saveListProduct() {
+        var product =
+            Product(
+                id = state.value.item?.products?.size?.plus(1) ?: Random.nextInt(),
+                name = productInput.value.name,
+                description = productInput.value.description,
+            )
+        productInput.value.productId?.let {
+            product = product.copy(id = it)
+        }
+        repo.upsertProductToList(shopListId, product)
         setShowDialog(false)
     }
 }

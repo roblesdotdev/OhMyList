@@ -1,5 +1,7 @@
 package com.roblesdotdev.ohmylist.shoplistDetail.ui
 
+import com.roblesdotdev.ohmylist.core.domain.model.Product
+
 sealed interface ShopListDetailEvent {
     data object CloseModal : ShopListDetailEvent
     data object OpenModal : ShopListDetailEvent
@@ -8,4 +10,6 @@ sealed interface ShopListDetailEvent {
     data class ChangeInputName(val name: String) : ShopListDetailEvent
 
     data class ChangeInputDescription(val description: String) : ShopListDetailEvent
+
+    data class EditProduct(val product: Product) : ShopListDetailEvent
 }

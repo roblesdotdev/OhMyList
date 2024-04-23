@@ -11,6 +11,7 @@ data class ShopListDetailState(
 )
 
 data class ProductInput(
+    val productId: Int? = null,
     val name: String = "",
     val description: String = "",
 ) {

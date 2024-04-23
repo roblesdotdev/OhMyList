@@ -32,14 +32,20 @@ class DefaultShopListRepository : ShopListRepository {
         return flowOf(result)
     }
 
-    override fun addProductToList(
+    override fun upsertProductToList(
         listId: Int,
         product: Product,
     ) {
         val indexList = items.indexOfFirst { it.id == listId }
         if (indexList != -1) {
-            val newId = items[indexList].products.size + 1
-            items[indexList].products += product.copy(id = newId)
+            val productIndex = items[indexList].products.indexOfFirst { it.id == product.id }
+            if (productIndex != -1) {
+                val updatedProducts = items[indexList].products.toMutableList()
+                updatedProducts[productIndex] = product
+                items[indexList].products = updatedProducts
+            } else {
+                items[indexList].products += product
+            }
         }
     }
 

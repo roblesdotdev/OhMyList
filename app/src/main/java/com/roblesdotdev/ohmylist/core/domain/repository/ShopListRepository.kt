@@ -9,7 +9,7 @@ interface ShopListRepository {
 
     fun getShopListStreamById(id: Int): Flow<ShopList?>
 
-    fun addProductToList(
+    fun upsertProductToList(
         listId: Int,
         product: Product,
     )
