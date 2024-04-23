@@ -12,4 +12,6 @@ sealed interface ShopListDetailEvent {
     data class ChangeInputDescription(val description: String) : ShopListDetailEvent
 
     data class EditProduct(val product: Product) : ShopListDetailEvent
+
+    data class ToggleProductChecked(val product: Product) : ShopListDetailEvent
 }

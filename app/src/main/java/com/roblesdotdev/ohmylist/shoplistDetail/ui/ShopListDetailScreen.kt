@@ -15,9 +15,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,7 +52,7 @@ fun ShopListDetailScreen(
     ) { paddingValues ->
         ShopListDetailContent(paddingValues = paddingValues, state = state, onEvent = onEvent)
         if (state.showDialog) {
-            ProductDialog(onEvent = onEvent, input = state.input)
+            ProductDialog(onEvent = onEvent, currentProduct = state.currentProduct)
         }
     }
 }
@@ -103,12 +103,9 @@ fun ShopListDetailContent(
                                 Text(text = product.name, fontWeight = FontWeight.Bold)
                                 Text(text = product.description, fontSize = 14.sp)
                             }
-                            IconButton(onClick = { /*TODO*/ }) {
-                                Icon(
-                                    imageVector = Icons.Default.Check,
-                                    contentDescription = null,
-                                )
-                            }
+                            Checkbox(checked = product.isChecked, onCheckedChange = {
+                                onEvent(ShopListDetailEvent.ToggleProductChecked(product))
+                            })
                         }
                     }
                 }
@@ -129,7 +126,7 @@ fun ShopListDetailContent(
 
 @Composable
 fun ProductDialog(
-    input: ProductInput,
+    currentProduct: Product,
     onEvent: (ShopListDetailEvent) -> Unit,
 ) {
     Dialog(
@@ -140,16 +137,16 @@ fun ProductDialog(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                val title = if (input.productId != null) "Edit product" else "Add product"
+                val title = if (currentProduct.id != -1) "Edit product" else "Add product"
                 Text(text = title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(32.dp))
                 TextField(
-                    value = input.name,
+                    value = currentProduct.name,
                     onValueChange = { onEvent(ShopListDetailEvent.ChangeInputName(it)) },
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(
-                    value = input.description,
+                    value = currentProduct.description,
                     onValueChange = { onEvent(ShopListDetailEvent.ChangeInputDescription(it)) },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
@@ -163,7 +160,7 @@ fun ProductDialog(
                     Button(
                         onClick = { onEvent(ShopListDetailEvent.AddProduct) },
                         shape = RoundedCornerShape(8.dp),
-                        enabled = input.isValid,
+                        enabled = currentProduct.isValid,
                     ) {
                         Text(text = "Save")
                     }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlin.random.Random
 
 class ShopListDetailViewModel(
     private val repo: ShopListRepository,
@@ -22,7 +21,7 @@ class ShopListDetailViewModel(
 
     private val isLoading = MutableStateFlow(false)
     private val showDialog = MutableStateFlow(false)
-    private val productInput = MutableStateFlow(ProductInput())
+    private val currentProduct = MutableStateFlow(Product())
     private val asyncResult =
         repo.getShopListStreamById(shopListId)
             .map { shopList ->
@@ -34,15 +33,15 @@ class ShopListDetailViewModel(
             showDialog,
             isLoading,
             asyncResult,
-            productInput,
-        ) { showDialog, isLoading, result, productInput ->
+            currentProduct,
+        ) { showDialog, isLoading, result, currentProduct ->
             when (result) {
                 is AsyncResult.Error ->
                     ShopListDetailState(
                         isLoading = false,
                         showDialog = showDialog,
                         errorMessage = result.errorMessage,
-                        input = productInput,
+                        currentProduct = currentProduct,
                     )
 
                 AsyncResult.Loading ->
@@ -56,7 +55,7 @@ class ShopListDetailViewModel(
                         isLoading = isLoading,
                         item = result.data,
                         showDialog = showDialog,
-                        input = productInput,
+                        currentProduct = currentProduct,
                     )
             }
         }.stateIn(
@@ -73,25 +72,36 @@ class ShopListDetailViewModel(
             is ShopListDetailEvent.ChangeInputDescription -> updateInputDescription(event.description)
             is ShopListDetailEvent.ChangeInputName -> updateInputName(event.name)
             is ShopListDetailEvent.EditProduct -> openEditDialog(event.product)
+            is ShopListDetailEvent.ToggleProductChecked -> toggleProductChecked(event.product)
         }
     }
 
+    private fun toggleProductChecked(product: Product) {
+        currentProduct.value = product
+        repo.upsertProductToList(
+            listId = shopListId,
+            product = currentProduct.value.copy(isChecked = !currentProduct.value.isChecked),
+        )
+        currentProduct.value = Product()
+    }
+
     private fun openEditDialog(product: Product) {
-        productInput.value =
-            productInput.value.copy(
-                productId = product.id,
+        currentProduct.value =
+            currentProduct.value.copy(
+                id = product.id,
                 name = product.name,
                 description = product.description,
+                isChecked = product.isChecked,
             )
         setShowDialog(true)
     }
 
     private fun updateInputName(name: String) {
-        productInput.value = productInput.value.copy(name = name)
+        currentProduct.value = currentProduct.value.copy(name = name)
     }
 
     private fun updateInputDescription(description: String) {
-        productInput.update { it.copy(description = description) }
+        currentProduct.update { it.copy(description = description) }
     }
 
     private fun handleAsyncResult(shopList: ShopList?): AsyncResult<ShopList?> {
@@ -104,21 +114,12 @@ class ShopListDetailViewModel(
     private fun setShowDialog(value: Boolean) {
         showDialog.value = value
         if (!value) {
-            productInput.value = ProductInput()
+            currentProduct.value = Product()
         }
     }
 
     private fun saveListProduct() {
-        var product =
-            Product(
-                id = state.value.item?.products?.size?.plus(1) ?: Random.nextInt(),
-                name = productInput.value.name,
-                description = productInput.value.description,
-            )
-        productInput.value.productId?.let {
-            product = product.copy(id = it)
-        }
-        repo.upsertProductToList(shopListId, product)
+        repo.upsertProductToList(listId = shopListId, product = currentProduct.value)
         setShowDialog(false)
     }
 }

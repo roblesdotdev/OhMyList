@@ -1,5 +1,6 @@
 package com.roblesdotdev.ohmylist.shoplistDetail.ui
 
+import com.roblesdotdev.ohmylist.core.domain.model.Product
 import com.roblesdotdev.ohmylist.core.domain.model.ShopList
 
 data class ShopListDetailState(
@@ -7,13 +8,5 @@ data class ShopListDetailState(
     val item: ShopList? = null,
     val errorMessage: String? = null,
     val showDialog: Boolean = false,
-    val input: ProductInput = ProductInput(),
+    val currentProduct: Product = Product(),
 )
-
-data class ProductInput(
-    val productId: Int? = null,
-    val name: String = "",
-    val description: String = "",
-) {
-    val isValid = name.isNotBlank() && description.isNotBlank()
-}
