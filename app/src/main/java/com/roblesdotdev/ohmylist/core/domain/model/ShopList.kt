@@ -5,5 +5,5 @@ data class ShopList(
     val title: String = "",
     val description: String = "",
     val group: String = "",
-    val products: List<Product> = emptyList(),
+    var products: List<Product> = emptyList(),
 )

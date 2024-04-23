@@ -29,7 +29,10 @@ class MainActivity : ComponentActivity() {
             )
             val state by viewModel.state.collectAsState()
             OhMyListTheme {
-                ShopListDetailScreen(state = state)
+                ShopListDetailScreen(
+                    state = state,
+                    onEvent = viewModel::onEvent,
+                )
             }
         }
     }
