@@ -10,6 +10,10 @@ activityCompose = "1.8.2"
 composeBom = "2023.08.00"
 kotlinterVersion = "4.0.0"
 detektVersion = "1.23.3"
+hiltVersion = "2.49"
+hiltCompilerVersion = "1.2.0"
+hiltNavigationComposeVersion = "1.2.0"
+kspVersion = "1.9.23-1.0.20"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,6 +30,11 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+# Dagger Hilt
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompilerVersion" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltVersion" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationComposeVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -34,3 +43,7 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinterVersion" }
 # Detekt: static code analyzer
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektVersion" }
+# Dagger hilt
+daggerHiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+# KSP
+googleDevtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }

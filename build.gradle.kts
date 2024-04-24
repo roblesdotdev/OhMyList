@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.googleDevtoolsKsp) apply false
+    alias(libs.plugins.daggerHiltAndroid) apply false
 }
 
 apply(from = "buildScripts/git-hooks.gradle")
