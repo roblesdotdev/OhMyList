@@ -49,6 +49,15 @@ class DefaultShopListRepository : ShopListRepository {
         }
     }
 
+    override suspend fun saveShopList(
+        title: String,
+        group: String,
+    ) {
+        val id = items.size + 1
+        val list = ShopList(id = id, title = title, group = group)
+        items.add(list)
+    }
+
     companion object {
         const val MIN = 1
         const val MAX = 5

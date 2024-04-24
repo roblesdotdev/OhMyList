@@ -13,4 +13,9 @@ interface ShopListRepository {
         listId: Int,
         product: Product,
     )
+
+    suspend fun saveShopList(
+        title: String,
+        group: String,
+    )
 }
