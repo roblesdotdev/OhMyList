@@ -29,7 +29,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,10 +44,13 @@ fun ShopListDetailScreen(
     state: ShopListDetailState,
     onEvent: (ShopListDetailEvent) -> Unit,
     onBack: () -> Unit,
+    onEdit: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
-            ShopListDetailTab(onBack = onBack)
+            ShopListDetailTab(onBack = onBack, onEditClick = {
+                state.item?.let { onEdit(it.id) }
+            })
         },
     ) { paddingValues ->
         ShopListDetailContent(paddingValues = paddingValues, state = state, onEvent = onEvent)
@@ -173,7 +175,10 @@ fun ProductDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShopListDetailTab(onBack: () -> Unit) {
+fun ShopListDetailTab(
+    onBack: () -> Unit,
+    onEditClick: () -> Unit,
+) {
     TopAppBar(
         title = {
             Text(text = "List Detail", fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -184,18 +189,13 @@ fun ShopListDetailTab(onBack: () -> Unit) {
             }
         },
         actions = {
-            TextButton(onClick = { /*TODO*/ }) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = "Edit",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
+            TextButton(onClick = onEditClick) {
+                Text(
+                    text = "Edit",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
             }
         },
     )
@@ -208,6 +208,7 @@ private fun ShopListDetailScreenPreview() {
         ShopListDetailScreen(
             onEvent = {},
             onBack = {},
+            onEdit = {},
             state =
                 ShopListDetailState(
                     showDialog = true,

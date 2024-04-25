@@ -24,7 +24,11 @@ class ShopListNavActions(private val navController: NavHostController) {
         }
     }
 
-    fun navigateToAddShopList(listId: Int? = null) {
-        navController.navigate(route = "addShopList?listId={$listId}")
+    fun navigateToAddShopList(listId: String? = null) {
+        navController.navigate(route = "addShopList?listId=$listId") {
+            if (listId != null) {
+                popUpTo("shopList")
+            }
+        }
     }
 }

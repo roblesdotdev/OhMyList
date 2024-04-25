@@ -49,14 +49,14 @@ class DefaultShopListRepository : ShopListRepository {
         }
     }
 
-    override suspend fun saveShopList(
-        title: String,
-        group: String,
-    ): Int {
-        val id = items.size + 1
-        val list = ShopList(id = id, title = title, group = group)
-        items.add(list)
-        return id
+    override suspend fun saveShopList(shopList: ShopList): Int {
+        val indexList = items.indexOfFirst { it.id == shopList.id }
+        if (indexList != -1) {
+            items[indexList] = shopList
+        } else {
+            items.add(shopList)
+        }
+        return shopList.id
     }
 
     companion object {

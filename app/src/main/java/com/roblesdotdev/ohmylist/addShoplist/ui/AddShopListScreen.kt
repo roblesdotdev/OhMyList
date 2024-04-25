@@ -41,9 +41,9 @@ fun AddShopListScreen(
     onListSaved: (Int) -> Unit,
     onBack: () -> Unit,
 ) {
-    LaunchedEffect(key1 = state.isSaved) {
-        if (state.isSaved && state.listId != null) {
-            onListSaved(state.listId)
+    LaunchedEffect(key1 = state.savedListId) {
+        if (state.savedListId != null) {
+            onListSaved(state.savedListId)
         }
     }
 

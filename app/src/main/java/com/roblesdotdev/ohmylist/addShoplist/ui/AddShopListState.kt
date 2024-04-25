@@ -1,10 +1,12 @@
 package com.roblesdotdev.ohmylist.addShoplist.ui
 
+import com.roblesdotdev.ohmylist.core.domain.model.ShopList
+
 data class AddShopListState(
-    val listId: Int? = null,
+    val savedListId: Int? = null,
     val title: String = "",
     val group: String = "General",
-    val isSaved: Boolean = false,
+    val item: ShopList? = null,
 ) {
     val isFormValid = title.isNotBlank() && group.isNotBlank()
 }

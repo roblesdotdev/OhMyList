@@ -61,6 +61,9 @@ fun NavGraph(
                 state = state,
                 onEvent = vm::onEvent,
                 onBack = { navController.popBackStack() },
+                onEdit = { listId ->
+                    navActions.navigateToAddShopList(listId.toString())
+                },
             )
         }
 
@@ -69,6 +72,7 @@ fun NavGraph(
             arguments =
                 listOf(
                     navArgument("listId") {
+                        type = NavType.StringType
                         nullable = true
                     },
                 ),

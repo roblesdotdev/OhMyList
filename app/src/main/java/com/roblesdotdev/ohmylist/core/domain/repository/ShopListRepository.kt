@@ -14,8 +14,5 @@ interface ShopListRepository {
         product: Product,
     )
 
-    suspend fun saveShopList(
-        title: String,
-        group: String,
-    ): Int
+    suspend fun saveShopList(shopList: ShopList): Int
 }
