@@ -1,5 +1,6 @@
 package com.roblesdotdev.ohmylist.core.di
 
+import com.roblesdotdev.ohmylist.core.data.local.LocalDao
 import com.roblesdotdev.ohmylist.core.data.repository.DefaultShopListRepository
 import com.roblesdotdev.ohmylist.core.domain.repository.ShopListRepository
 import dagger.Module
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 object ShopListModule {
     @Singleton
     @Provides
-    fun providesShopListRepository(): ShopListRepository {
-        return DefaultShopListRepository()
+    fun providesShopListRepository(localDao: LocalDao): ShopListRepository {
+        return DefaultShopListRepository(localDao)
     }
 }

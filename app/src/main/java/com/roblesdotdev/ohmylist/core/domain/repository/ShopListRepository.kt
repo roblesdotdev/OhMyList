@@ -9,10 +9,10 @@ interface ShopListRepository {
 
     fun getShopListStreamById(id: Int): Flow<ShopList?>
 
-    fun upsertProductToList(
+    suspend fun upsertProductToList(
         listId: Int,
         product: Product,
     )
 
-    suspend fun saveShopList(shopList: ShopList): Int
+    suspend fun upsertShopList(shopList: ShopList): Int
 }

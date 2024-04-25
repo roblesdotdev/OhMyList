@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +26,6 @@ class ShopListDetailViewModel
         savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
         private val shopListId = savedStateHandle.get<Int>("listId")!!
-
         private val isLoading = MutableStateFlow(false)
         private val showDialog = MutableStateFlow(false)
         private val currentProduct = MutableStateFlow(Product())
@@ -84,27 +84,24 @@ class ShopListDetailViewModel
         }
 
         private fun toggleProductChecked(product: Product) {
-            currentProduct.value = product
-            repo.upsertProductToList(
-                listId = shopListId,
-                product = currentProduct.value.copy(isChecked = !currentProduct.value.isChecked),
-            )
-            currentProduct.value = Product()
+            viewModelScope.launch {
+                repo.upsertProductToList(
+                    listId = shopListId,
+                    product = product.copy(isChecked = !product.isChecked),
+                )
+                currentProduct.value = Product()
+            }
         }
 
-        private fun openEditDialog(product: Product) {
-            currentProduct.value =
-                currentProduct.value.copy(
-                    id = product.id,
-                    name = product.name,
-                    description = product.description,
-                    isChecked = product.isChecked,
-                )
+        private fun openEditDialog(product: Product?) {
+            product?.let {
+                currentProduct.value = it
+            }
             setShowDialog(true)
         }
 
         private fun updateInputName(name: String) {
-            currentProduct.value = currentProduct.value.copy(name = name)
+            currentProduct.update { it.copy(name = name) }
         }
 
         private fun updateInputDescription(description: String) {
@@ -126,7 +123,9 @@ class ShopListDetailViewModel
         }
 
         private fun saveListProduct() {
-            repo.upsertProductToList(listId = shopListId, product = currentProduct.value)
-            setShowDialog(false)
+            viewModelScope.launch {
+                repo.upsertProductToList(listId = shopListId, product = currentProduct.value)
+                setShowDialog(false)
+            }
         }
     }

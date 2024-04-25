@@ -60,7 +60,7 @@ class AddShopListViewModel
                             products = it.products,
                         )
                 }
-                repo.saveShopList(list).let { listId ->
+                repo.upsertShopList(list).let { listId ->
                     _state.update { it.copy(savedListId = listId) }
                 }
             }
