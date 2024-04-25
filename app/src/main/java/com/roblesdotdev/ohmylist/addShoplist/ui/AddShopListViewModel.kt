@@ -40,8 +40,9 @@ class AddShopListViewModel
                 repo.saveShopList(
                     title = _state.value.title,
                     group = _state.value.group,
-                )
-                _state.update { it.copy(isSaved = true) }
+                ).let { listId ->
+                    _state.update { it.copy(isSaved = true, listId = listId) }
+                }
             }
         }
     }

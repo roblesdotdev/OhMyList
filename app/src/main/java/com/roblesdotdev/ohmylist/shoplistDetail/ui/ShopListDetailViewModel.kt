@@ -1,5 +1,6 @@
 package com.roblesdotdev.ohmylist.shoplistDetail.ui
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roblesdotdev.ohmylist.core.domain.model.Product
@@ -21,8 +22,9 @@ class ShopListDetailViewModel
     @Inject
     constructor(
         private val repo: ShopListRepository,
+        savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
-        private val shopListId = 1
+        private val shopListId = savedStateHandle.get<Int>("listId")!!
 
         private val isLoading = MutableStateFlow(false)
         private val showDialog = MutableStateFlow(false)

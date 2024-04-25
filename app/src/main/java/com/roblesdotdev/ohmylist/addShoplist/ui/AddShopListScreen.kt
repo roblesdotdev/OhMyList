@@ -38,17 +38,18 @@ import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 fun AddShopListScreen(
     state: AddShopListState,
     onEvent: (AddShopListEvent) -> Unit,
-    onListSaved: () -> Unit,
+    onListSaved: (Int) -> Unit,
+    onBack: () -> Unit,
 ) {
     LaunchedEffect(key1 = state.isSaved) {
-        if (state.isSaved) {
-            onListSaved()
+        if (state.isSaved && state.listId != null) {
+            onListSaved(state.listId)
         }
     }
 
     Scaffold(
         topBar = {
-            AddShopListTab()
+            AddShopListTab(onBack = onBack)
         },
     ) { paddingValues ->
         Column(
@@ -109,11 +110,11 @@ fun AddShopListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddShopListTab() {
+fun AddShopListTab(onBack: () -> Unit) {
     TopAppBar(title = {
         Text(text = "New Shopping List", fontSize = 16.sp, fontWeight = FontWeight.Bold)
     }, navigationIcon = {
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = onBack) {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
         }
     })
@@ -123,6 +124,6 @@ fun AddShopListTab() {
 @Composable
 private fun AddShopListScreenPreview() {
     OhMyListTheme {
-        AddShopListScreen(state = AddShopListState(), onEvent = {}, onListSaved = {})
+        AddShopListScreen(state = AddShopListState(), onEvent = {}, onListSaved = {}, onBack = {})
     }
 }

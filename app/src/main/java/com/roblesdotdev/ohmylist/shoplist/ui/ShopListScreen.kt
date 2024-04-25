@@ -34,13 +34,17 @@ import com.roblesdotdev.ohmylist.core.domain.model.ShopList
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
 @Composable
-fun ShopListScreen(state: ShopListState) {
+fun ShopListScreen(
+    state: ShopListState,
+    onListClick: (Int) -> Unit,
+    onAddClick: () -> Unit,
+) {
     Scaffold(
         topBar = {
             ShopListTab()
         },
         floatingActionButton = {
-            ShopListFab(onClick = {})
+            ShopListFab(onClick = onAddClick)
         },
     ) { paddingValues ->
         LazyColumn(
@@ -56,19 +60,22 @@ fun ShopListScreen(state: ShopListState) {
             }
 
             items(state.items, key = { it.id }) { item ->
-                ShopListItem(item)
+                ShopListItem(item, onClick = { onListClick(item.id) })
             }
         }
     }
 }
 
 @Composable
-fun ShopListItem(item: ShopList) {
+fun ShopListItem(
+    item: ShopList,
+    onClick: () -> Unit,
+) {
     Card(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .clickable { },
+                .clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
     ) {
         Row(
@@ -116,6 +123,6 @@ fun ShopListFab(onClick: () -> Unit) {
 @Composable
 private fun ShopListScreenPreview() {
     OhMyListTheme {
-        ShopListScreen(state = ShopListState())
+        ShopListScreen(state = ShopListState(), onListClick = {}, onAddClick = {})
     }
 }

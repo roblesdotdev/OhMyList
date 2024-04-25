@@ -52,10 +52,11 @@ class DefaultShopListRepository : ShopListRepository {
     override suspend fun saveShopList(
         title: String,
         group: String,
-    ) {
+    ): Int {
         val id = items.size + 1
         val list = ShopList(id = id, title = title, group = group)
         items.add(list)
+        return id
     }
 
     companion object {

@@ -44,10 +44,11 @@ import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 fun ShopListDetailScreen(
     state: ShopListDetailState,
     onEvent: (ShopListDetailEvent) -> Unit,
+    onBack: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            ShopListDetailTab()
+            ShopListDetailTab(onBack = onBack)
         },
     ) { paddingValues ->
         ShopListDetailContent(paddingValues = paddingValues, state = state, onEvent = onEvent)
@@ -172,13 +173,13 @@ fun ProductDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShopListDetailTab() {
+fun ShopListDetailTab(onBack: () -> Unit) {
     TopAppBar(
         title = {
             Text(text = "List Detail", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         },
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onBack) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
             }
         },
@@ -206,6 +207,7 @@ private fun ShopListDetailScreenPreview() {
     OhMyListTheme {
         ShopListDetailScreen(
             onEvent = {},
+            onBack = {},
             state =
                 ShopListDetailState(
                     showDialog = true,
