@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.roblesdotdev.ohmylist.core.domain.model.Product
+import com.roblesdotdev.ohmylist.core.domain.model.ProductInput
 import com.roblesdotdev.ohmylist.core.domain.model.ShopList
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
@@ -55,7 +56,7 @@ fun ShopListDetailScreen(
     ) { paddingValues ->
         ShopListDetailContent(paddingValues = paddingValues, state = state, onEvent = onEvent)
         if (state.showDialog) {
-            ProductDialog(onEvent = onEvent, currentProduct = state.currentProduct)
+            ProductDialog(onEvent = onEvent, productInput = state.productInput)
         }
     }
 }
@@ -129,7 +130,7 @@ fun ShopListDetailContent(
 
 @Composable
 fun ProductDialog(
-    currentProduct: Product,
+    productInput: ProductInput,
     onEvent: (ShopListDetailEvent) -> Unit,
 ) {
     Dialog(
@@ -140,16 +141,16 @@ fun ProductDialog(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                val title = if (currentProduct.id != -1) "Edit product" else "Add product"
+                val title = if (productInput.isEdit) "Edit product" else "Add product"
                 Text(text = title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(32.dp))
                 TextField(
-                    value = currentProduct.name,
+                    value = productInput.name,
                     onValueChange = { onEvent(ShopListDetailEvent.ChangeInputName(it)) },
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(
-                    value = currentProduct.description,
+                    value = productInput.description,
                     onValueChange = { onEvent(ShopListDetailEvent.ChangeInputDescription(it)) },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
@@ -163,7 +164,7 @@ fun ProductDialog(
                     Button(
                         onClick = { onEvent(ShopListDetailEvent.AddProduct) },
                         shape = RoundedCornerShape(8.dp),
-                        enabled = currentProduct.isValid,
+                        enabled = productInput.isValid,
                     ) {
                         Text(text = "Save")
                     }
