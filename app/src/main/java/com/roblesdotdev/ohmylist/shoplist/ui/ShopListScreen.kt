@@ -82,9 +82,11 @@ fun ShopListItem(
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val detailText =
+                "${item.products.filter { it.isChecked }.size} of ${item.products.size} product(s)"
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = item.title, fontWeight = FontWeight.Bold)
-                Text(text = "5 product(s)", fontSize = 12.sp)
+                Text(text = detailText, fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(12.dp))
                 Surface(
                     shape = RoundedCornerShape(8.dp),

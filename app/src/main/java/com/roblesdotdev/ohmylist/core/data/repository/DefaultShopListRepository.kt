@@ -18,8 +18,10 @@ class DefaultShopListRepository
         private val localStore: LocalDao,
     ) : ShopListRepository {
         override fun getShopListStream(): Flow<List<ShopList>> {
-            return localStore.getShopList().map { list ->
-                list.map { it.toDomain() }
+            return localStore.getShopList().map { listWithProducts ->
+                listWithProducts.map {
+                    it.toDomain()
+                }
             }
         }
 

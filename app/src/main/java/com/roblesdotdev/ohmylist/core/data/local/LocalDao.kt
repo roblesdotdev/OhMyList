@@ -23,5 +23,5 @@ interface LocalDao {
     fun getShopListWithProducts(shopListId: Int): Flow<ShopListWithProducts>
 
     @Query("SELECT * from shopList")
-    fun getShopList(): Flow<List<ShopListEntity>>
+    fun getShopList(): Flow<List<ShopListWithProducts>>
 }
