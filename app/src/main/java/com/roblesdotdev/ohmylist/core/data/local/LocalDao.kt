@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Upsert
 import com.roblesdotdev.ohmylist.core.data.local.entity.ProductEntity
 import com.roblesdotdev.ohmylist.core.data.local.entity.ShopListEntity
 import com.roblesdotdev.ohmylist.core.data.local.entity.ShopListWithProducts
@@ -16,7 +15,7 @@ interface LocalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertShopList(shopList: ShopListEntity): Long
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertShopListProduct(product: ProductEntity)
 
     @Transaction

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roblesdotdev.ohmylist.core.domain.model.Product
+import com.roblesdotdev.ohmylist.core.domain.model.ProductInput
 import com.roblesdotdev.ohmylist.core.domain.model.ShopList
 import com.roblesdotdev.ohmylist.core.domain.repository.ShopListRepository
 import com.roblesdotdev.ohmylist.core.util.AsyncResult
@@ -28,7 +29,8 @@ class ShopListDetailViewModel
         private val shopListId = savedStateHandle.get<Int>("listId")!!
         private val isLoading = MutableStateFlow(false)
         private val showDialog = MutableStateFlow(false)
-        private val currentProduct = MutableStateFlow(Product())
+        private val currentProduct: MutableStateFlow<Product?> = MutableStateFlow(null)
+        private val productInput = MutableStateFlow(ProductInput())
         private val asyncResult =
             repo.getShopListStreamById(shopListId)
                 .map { shopList ->
@@ -40,15 +42,15 @@ class ShopListDetailViewModel
                 showDialog,
                 isLoading,
                 asyncResult,
-                currentProduct,
-            ) { showDialog, isLoading, result, currentProduct ->
+                productInput,
+            ) { showDialog, isLoading, result, productInput ->
                 when (result) {
                     is AsyncResult.Error ->
                         ShopListDetailState(
                             isLoading = false,
                             showDialog = showDialog,
                             errorMessage = result.errorMessage,
-                            currentProduct = currentProduct,
+                            productInput = productInput,
                         )
 
                     AsyncResult.Loading ->
@@ -62,7 +64,7 @@ class ShopListDetailViewModel
                             isLoading = isLoading,
                             item = result.data,
                             showDialog = showDialog,
-                            currentProduct = currentProduct,
+                            productInput = productInput,
                         )
                 }
             }.stateIn(
@@ -93,19 +95,24 @@ class ShopListDetailViewModel
             }
         }
 
-        private fun openEditDialog(product: Product?) {
-            product?.let {
-                currentProduct.value = it
+        private fun openEditDialog(product: Product) {
+            currentProduct.value = product
+            productInput.update {
+                it.copy(
+                    name = product.name,
+                    description = product.description,
+                    isEdit = true,
+                )
             }
             setShowDialog(true)
         }
 
         private fun updateInputName(name: String) {
-            currentProduct.update { it.copy(name = name) }
+            productInput.update { it.copy(name = name) }
         }
 
         private fun updateInputDescription(description: String) {
-            currentProduct.update { it.copy(description = description) }
+            productInput.update { it.copy(description = description) }
         }
 
         private fun handleAsyncResult(shopList: ShopList?): AsyncResult<ShopList?> {
@@ -118,14 +125,24 @@ class ShopListDetailViewModel
         private fun setShowDialog(value: Boolean) {
             showDialog.value = value
             if (!value) {
-                currentProduct.value = Product()
+                currentProduct.value = null
+                productInput.value = ProductInput()
             }
         }
 
         private fun saveListProduct() {
             viewModelScope.launch {
-                repo.upsertProductToList(listId = shopListId, product = currentProduct.value)
-                setShowDialog(false)
+                var product =
+                    Product(
+                        name = state.value.productInput.name,
+                        description = state.value.productInput.description,
+                    )
+                currentProduct.value?.let { currProd ->
+                    product = product.copy(id = currProd.id)
+                }
+                repo.upsertProductToList(listId = shopListId, product = product).also {
+                    setShowDialog(false)
+                }
             }
         }
     }
