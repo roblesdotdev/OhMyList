@@ -4,10 +4,12 @@ package com.roblesdotdev.ohmylist.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val background = Color(0xFFF5F5F5)
+val onBackground = Color(0xFF3C4958)
+val primary = Color(0xFF1B1F2D)
+val onPrimary = Color(0xFFFFFFFF)
+val surface = Color(0xFFDBE2FB)
+val onSurface = Color(0xFF1B1F2D)
+val primaryContainer = Color(0xFFFFFFFF)
+val onPrimaryContainer = Color(0xFF47586B)
+val borderColor = onPrimaryContainer.copy(alpha = .5f)

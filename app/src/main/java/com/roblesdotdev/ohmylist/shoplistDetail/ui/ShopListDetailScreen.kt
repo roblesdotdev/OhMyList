@@ -16,9 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +25,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +35,8 @@ import androidx.compose.ui.window.Dialog
 import com.roblesdotdev.ohmylist.core.domain.model.Product
 import com.roblesdotdev.ohmylist.core.domain.model.ProductInput
 import com.roblesdotdev.ohmylist.core.domain.model.ShopList
+import com.roblesdotdev.ohmylist.core.ui.components.CustomCard
+import com.roblesdotdev.ohmylist.core.ui.components.CustomTopAppBar
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
 @Composable
@@ -93,12 +92,11 @@ fun ShopListDetailContent(
 
             if (state.item?.products?.isNotEmpty() == true) {
                 items(state.item.products) { product ->
-                    Card(
+                    CustomCard(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
                                 .clickable { onEvent(ShopListDetailEvent.EditProduct(product)) },
-                        shape = RoundedCornerShape(8.dp),
                     ) {
                         Row(
                             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
@@ -139,6 +137,7 @@ fun ProductDialog(
         Surface(
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.background,
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 val title = if (productInput.isEdit) "Edit product" else "Add product"
@@ -174,16 +173,13 @@ fun ProductDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShopListDetailTab(
     onBack: () -> Unit,
     onEditClick: () -> Unit,
 ) {
-    TopAppBar(
-        title = {
-            Text(text = "List Detail", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        },
+    CustomTopAppBar(
+        title = "List detail",
         navigationIcon = {
             IconButton(onClick = onBack) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)

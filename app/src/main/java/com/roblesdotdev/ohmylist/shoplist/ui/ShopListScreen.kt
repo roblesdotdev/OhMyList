@@ -15,14 +15,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.roblesdotdev.ohmylist.core.domain.model.ShopList
+import com.roblesdotdev.ohmylist.core.ui.components.CustomCard
+import com.roblesdotdev.ohmylist.core.ui.components.CustomTopAppBar
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
 @Composable
@@ -41,7 +41,7 @@ fun ShopListScreen(
 ) {
     Scaffold(
         topBar = {
-            ShopListTab()
+            CustomTopAppBar(title = "Oh My List")
         },
         floatingActionButton = {
             ShopListFab(onClick = onAddClick)
@@ -71,12 +71,11 @@ fun ShopListItem(
     item: ShopList,
     onClick: () -> Unit,
 ) {
-    Card(
+    CustomCard(
         modifier =
             Modifier
                 .fillMaxWidth()
                 .clickable { onClick() },
-        shape = RoundedCornerShape(8.dp),
     ) {
         Row(
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
@@ -104,19 +103,13 @@ fun ShopListItem(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ShopListTab() {
-    TopAppBar(
-        title = {
-            Text(text = "Oh My List", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        },
-    )
-}
-
 @Composable
 fun ShopListFab(onClick: () -> Unit) {
-    FloatingActionButton(onClick = onClick) {
+    FloatingActionButton(
+        onClick = onClick,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+    ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = null)
     }
 }
@@ -125,6 +118,16 @@ fun ShopListFab(onClick: () -> Unit) {
 @Composable
 private fun ShopListScreenPreview() {
     OhMyListTheme {
-        ShopListScreen(state = ShopListState(), onListClick = {}, onAddClick = {})
+        ShopListScreen(
+            state =
+                ShopListState(
+                    items =
+                        listOf(
+                            ShopList(title = "Foo", group = "General"),
+                        ),
+                ),
+            onListClick = {},
+            onAddClick = {},
+        )
     }
 }

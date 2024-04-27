@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +22,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.roblesdotdev.ohmylist.core.ui.components.CustomTopAppBar
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
 @Composable
@@ -79,6 +78,7 @@ fun AddShopListScreen(
                 Surface(
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                     shape = RoundedCornerShape(4.dp),
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     Row(
                         modifier =
@@ -108,16 +108,16 @@ fun AddShopListScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddShopListTab(onBack: () -> Unit) {
-    TopAppBar(title = {
-        Text(text = "New Shopping List", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-    }, navigationIcon = {
-        IconButton(onClick = onBack) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-        }
-    })
+    CustomTopAppBar(
+        title = "New shopping list",
+        navigationIcon = {
+            IconButton(onClick = onBack) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            }
+        },
+    )
 }
 
 @Preview
