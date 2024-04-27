@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +35,7 @@ import com.roblesdotdev.ohmylist.core.domain.model.Product
 import com.roblesdotdev.ohmylist.core.domain.model.ProductInput
 import com.roblesdotdev.ohmylist.core.domain.model.ShopList
 import com.roblesdotdev.ohmylist.core.ui.components.CustomCard
+import com.roblesdotdev.ohmylist.core.ui.components.CustomTextField
 import com.roblesdotdev.ohmylist.core.ui.components.CustomTopAppBar
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
@@ -143,14 +143,14 @@ fun ProductDialog(
                 val title = if (productInput.isEdit) "Edit product" else "Add product"
                 Text(text = title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(32.dp))
-                TextField(
+                CustomTextField(
                     value = productInput.name,
-                    onValueChange = { onEvent(ShopListDetailEvent.ChangeInputName(it)) },
+                    onChange = { onEvent(ShopListDetailEvent.ChangeInputName(it)) },
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                TextField(
+                CustomTextField(
                     value = productInput.description,
-                    onValueChange = { onEvent(ShopListDetailEvent.ChangeInputDescription(it)) },
+                    onChange = { onEvent(ShopListDetailEvent.ChangeInputDescription(it)) },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 Row(

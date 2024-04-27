@@ -18,7 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.roblesdotdev.ohmylist.core.ui.components.CustomTextField
 import com.roblesdotdev.ohmylist.core.ui.components.CustomTopAppBar
 import com.roblesdotdev.ohmylist.core.ui.theme.OhMyListTheme
 
@@ -61,11 +61,10 @@ fun AddShopListScreen(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(text = "Title", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                OutlinedTextField(
+                CustomTextField(
                     value = state.title,
-                    onValueChange = { onEvent(AddShopListEvent.ChangeTitle(it)) },
-                    placeholder = { Text(text = "List title") },
-                    singleLine = true,
+                    onChange = { onEvent(AddShopListEvent.ChangeTitle(it)) },
+                    placeholder = "List title",
                     keyboardOptions =
                         KeyboardOptions(
                             imeAction = ImeAction.Done,
