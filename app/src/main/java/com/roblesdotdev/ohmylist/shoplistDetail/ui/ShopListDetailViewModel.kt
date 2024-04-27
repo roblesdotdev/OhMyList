@@ -138,7 +138,11 @@ class ShopListDetailViewModel
                         description = state.value.productInput.description,
                     )
                 currentProduct.value?.let { currProd ->
-                    product = product.copy(id = currProd.id)
+                    product =
+                        product.copy(
+                            id = currProd.id,
+                            isChecked = currProd.isChecked,
+                        )
                 }
                 repo.upsertProductToList(listId = shopListId, product = product).also {
                     setShowDialog(false)
